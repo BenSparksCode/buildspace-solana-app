@@ -89,7 +89,7 @@ const App = () => {
       >
         <input
           type="text"
-          placeholder="Enter gif link!"
+          placeholder="Enter GIF link here"
           value={inputValue}
           onChange={onInputChange}
         />
