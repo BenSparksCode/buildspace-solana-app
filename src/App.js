@@ -7,6 +7,19 @@ import "./App.css";
 const TWITTER_HANDLE = "_buildspace";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
+const TEST_GIFS = [
+  "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
+  "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
+  "https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif",
+  "https://media.giphy.com/media/DgLsbUL7SG3kI/giphy.gif",
+  "https://media.giphy.com/media/3o7TKwBctlv08kY08M/giphy.gif",
+  "https://media.giphy.com/media/MXLeMX1pZR6c0hBYuR/giphy.gif",
+  "https://media.giphy.com/media/AqOioh3rTS0Z3pP6V2/giphy.gif",
+  "https://media.giphy.com/media/gk3R16JhLP8RUka2nD/giphy.gif",
+  "https://media.giphy.com/media/qPVzemjFi150Q/giphy.gif",
+  "https://media.giphy.com/media/WOr2GEPlT5T54LlueS/giphy.gif",
+];
+
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
 
@@ -49,6 +62,18 @@ const App = () => {
     </button>
   );
 
+  const renderConnectedContainer = () => (
+    <div className="connected-container">
+      <div className="gif-grid">
+        {TEST_GIFS.map((gif) => (
+          <div className="gif-item" key={gif}>
+            <img src={gif} alt={gif} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletConnected();
@@ -62,13 +87,12 @@ const App = () => {
     <div className="App">
       <div className={walletAddress ? "authed-container" : "container"}>
         <div className="header-container">
-          <p className="header">🖼 GIF Portal</p>
-          <p className="sub-text">
-            View your GIF collection in the metaverse ✨
-          </p>
-
+          <p className="header">Rick and Morty GIFs</p>
+          <p className="sub-text">✨ oooooweeeee ✨</p>
           {/* Render Connect Wallet btn here if no wallet connected */}
           {!walletAddress && renderNotConnectedContainer()}
+          {/* Render GIFs if wallet connected */}
+          {walletAddress && renderConnectedContainer()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
