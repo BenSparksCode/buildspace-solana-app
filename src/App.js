@@ -26,6 +26,17 @@ const App = () => {
     }
   };
 
+  const connectWallet = () => {};
+
+  const renderNotConnectedContainer = () => (
+    <button
+      className="cta-button connect-wallet-button"
+      onClick={connectWallet}
+    >
+      Connect Wallet
+    </button>
+  );
+
   useEffect(() => {
     const onLoad = async () => {
       await checkIfWalletConnected();
@@ -43,6 +54,9 @@ const App = () => {
           <p className="sub-text">
             View your GIF collection in the metaverse ✨
           </p>
+
+          {/* Render Connect Wallet btn here */}
+          {renderNotConnectedContainer()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
