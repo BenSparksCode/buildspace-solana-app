@@ -6,13 +6,17 @@ const { SystemProgram } = anchor.web3;
 const main = async () => {
   console.log("🚀 Starting test...");
 
-  anchor.setProvider(anchor.Provider.env());
-  const program = anchor.workspace.Solanacode;
-  const tx = await program.rpc.startStuffOff();
+  // Create and set the provider. We set it before but we needed to update it, so that it can communicate with our frontend!
+  const provider = anchor.Provider.env();
+  anchor.setProvider(provider);
 
+  const program = anchor.workspace.Solanacode;
+
+  // Create an account keypair for our program to use.
   const baseAccount = anchor.web3.Keypair.generate();
 
-  let startOffMined = await program.rps.startStuffOff({
+  // Call start_stuff_off, pass it the params it needs!
+  let tx = await program.rpc.startStuffOff({
     accounts: {
       baseAccount: baseAccount.publicKey,
       user: provider.wallet.publicKey,
@@ -22,6 +26,10 @@ const main = async () => {
   });
 
   console.log("📝 Your transaction signature", tx);
+
+  // Fetch data from the account.
+  let account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+  console.log("👀 GIF Count", account.totalGifs.toString());
 };
 
 const runMain = async () => {
