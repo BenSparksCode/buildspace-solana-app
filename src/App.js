@@ -10,6 +10,23 @@ import "./App.css";
 const TWITTER_HANDLE = "_buildspace";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
+// SystemProgram is a reference to the Solana runtime!
+const { SystemProgram, Keypair } = web3;
+
+// Create a keypair for the account that will hold the GIF data.
+let baseAccount = Keypair.generate();
+
+// Get our program's id from the IDL file.
+const programID = new PublicKey(idl.metadata.address);
+
+// Set our network to devnet.
+const network = clusterApiUrl("devnet");
+
+// Controls how we want to acknowledge when a transaction is "done".
+const opts = {
+  preflightCommitment: "processed",
+};
+
 const TEST_GIFS = [
   "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
   "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
@@ -27,6 +44,34 @@ const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [gifList, setGifList] = useState([]);
+
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletConnected();
+    };
+
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
+
+  useEffect(() => {
+    if (walletAddress) {
+      console.log("Fetching GIF list...");
+      // TODO Call Solana program here.
+      // Set state
+      setGifList(TEST_GIFS);
+    }
+  }, [walletAddress]);
+
+  const getProvider = () => {
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(
+      connection,
+      window.solana,
+      opts.preflightCommitment
+    );
+    return provider;
+  };
 
   const checkIfWalletConnected = async () => {
     try {
@@ -109,24 +154,6 @@ const App = () => {
       </div>
     </div>
   );
-
-  useEffect(() => {
-    const onLoad = async () => {
-      await checkIfWalletConnected();
-    };
-
-    window.addEventListener("load", onLoad);
-    return () => window.removeEventListener("load", onLoad);
-  }, []);
-
-  useEffect(() => {
-    if (walletAddress) {
-      console.log("Fetching GIF list...");
-      // TODO Call Solana program here.
-      // Set state
-      setGifList(TEST_GIFS);
-    }
-  }, [walletAddress]);
 
   return (
     <div className="App">
