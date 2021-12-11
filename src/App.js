@@ -27,18 +27,18 @@ const opts = {
   preflightCommitment: "processed",
 };
 
-const TEST_GIFS = [
-  "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
-  "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
-  "https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif",
-  "https://media.giphy.com/media/DgLsbUL7SG3kI/giphy.gif",
-  "https://media.giphy.com/media/3o7TKwBctlv08kY08M/giphy.gif",
-  "https://media.giphy.com/media/MXLeMX1pZR6c0hBYuR/giphy.gif",
-  "https://media.giphy.com/media/AqOioh3rTS0Z3pP6V2/giphy.gif",
-  "https://media.giphy.com/media/gk3R16JhLP8RUka2nD/giphy.gif",
-  "https://media.giphy.com/media/qPVzemjFi150Q/giphy.gif",
-  "https://media.giphy.com/media/WOr2GEPlT5T54LlueS/giphy.gif",
-];
+// const TEST_GIFS = [
+//   "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
+//   "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
+//   "https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif",
+//   "https://media.giphy.com/media/DgLsbUL7SG3kI/giphy.gif",
+//   "https://media.giphy.com/media/3o7TKwBctlv08kY08M/giphy.gif",
+//   "https://media.giphy.com/media/MXLeMX1pZR6c0hBYuR/giphy.gif",
+//   "https://media.giphy.com/media/AqOioh3rTS0Z3pP6V2/giphy.gif",
+//   "https://media.giphy.com/media/gk3R16JhLP8RUka2nD/giphy.gif",
+//   "https://media.giphy.com/media/qPVzemjFi150Q/giphy.gif",
+//   "https://media.giphy.com/media/WOr2GEPlT5T54LlueS/giphy.gif",
+// ];
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -166,33 +166,49 @@ const App = () => {
     </button>
   );
 
-  const renderConnectedContainer = () => (
-    <div className="connected-container">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          sendGif();
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Enter GIF link here"
-          value={inputValue}
-          onChange={onInputChange}
-        />
-        <button type="submit" className="cta-button submit-gif-button">
-          Submit
-        </button>
-      </form>
-      <div className="gif-grid">
-        {gifList.map((gif) => (
-          <div className="gif-item" key={gif}>
-            <img src={gif} alt={gif} />
+  const renderConnectedContainer = () => {
+    if (gifList === null) {
+      return (
+        <div className="connected-container">
+          <button
+            className="cta-button submit-gif-button"
+            onClick={createGifAccount}
+          >
+            Do One-Time Initialization For GIF Program Account
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="connected-container">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              sendGif();
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Enter GIF link here"
+              value={inputValue}
+              onChange={onInputChange}
+            />
+            <button type="submit" className="cta-button submit-gif-button">
+              Submit
+            </button>
+          </form>
+
+          <div className="gif-grid">
+            {gifList.map((item, index) => (
+              <div className="gif-item" key={index}>
+                <img src={item.gifLink} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="App">
