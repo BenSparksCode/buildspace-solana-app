@@ -27,18 +27,18 @@ const opts = {
   preflightCommitment: "processed",
 };
 
-// const TEST_GIFS = [
-//   "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
-//   "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
-//   "https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif",
-//   "https://media.giphy.com/media/DgLsbUL7SG3kI/giphy.gif",
-//   "https://media.giphy.com/media/3o7TKwBctlv08kY08M/giphy.gif",
-//   "https://media.giphy.com/media/MXLeMX1pZR6c0hBYuR/giphy.gif",
-//   "https://media.giphy.com/media/AqOioh3rTS0Z3pP6V2/giphy.gif",
-//   "https://media.giphy.com/media/gk3R16JhLP8RUka2nD/giphy.gif",
-//   "https://media.giphy.com/media/qPVzemjFi150Q/giphy.gif",
-//   "https://media.giphy.com/media/WOr2GEPlT5T54LlueS/giphy.gif",
-// ];
+const TEST_GIFS = [
+  "https://media.giphy.com/media/9zXWAIcr6jycE/giphy.gif",
+  "https://media.giphy.com/media/l378BzHA5FwWFXVSg/giphy.gif",
+  "https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif",
+  "https://media.giphy.com/media/DgLsbUL7SG3kI/giphy.gif",
+  "https://media.giphy.com/media/3o7TKwBctlv08kY08M/giphy.gif",
+  "https://media.giphy.com/media/MXLeMX1pZR6c0hBYuR/giphy.gif",
+  "https://media.giphy.com/media/AqOioh3rTS0Z3pP6V2/giphy.gif",
+  "https://media.giphy.com/media/gk3R16JhLP8RUka2nD/giphy.gif",
+  "https://media.giphy.com/media/qPVzemjFi150Q/giphy.gif",
+  "https://media.giphy.com/media/WOr2GEPlT5T54LlueS/giphy.gif",
+];
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -83,7 +83,7 @@ const App = () => {
       setGifList(account.gifList);
     } catch (error) {
       console.log("Error in getGifList: ", error);
-      setGifList([]);
+      setGifList(null);
     }
   };
 
@@ -167,7 +167,7 @@ const App = () => {
   );
 
   const renderConnectedContainer = () => {
-    if (gifList === null) {
+    if (gifList == null) {
       return (
         <div className="connected-container">
           <button
