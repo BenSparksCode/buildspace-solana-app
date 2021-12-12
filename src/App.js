@@ -176,6 +176,11 @@ const App = () => {
     }
   };
 
+  const shortenAddress = (address) => {
+    if (!address) return "";
+    return address.substring(0, 4) + "....." + address.substring(40);
+  };
+
   const renderNotConnectedContainer = () => (
     <button
       className="cta-button connect-wallet-button"
@@ -221,6 +226,9 @@ const App = () => {
             {gifList.map((item, index) => (
               <div className="gif-item" key={index}>
                 <img src={item.gifLink} alt={item.gifLink} />
+                <p style={{ color: "white" }}>
+                  Added by: {shortenAddress(item.userAddress.toString())}
+                </p>
               </div>
             ))}
           </div>
